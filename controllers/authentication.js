@@ -41,5 +41,8 @@ export default {
   },
 
   signin(req, res, next) {
+    // User email and password has already been authed
+    // User just needs to receive a token
+    res.send({ token: tokenForUser(req.user) })
   }
 }
