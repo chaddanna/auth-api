@@ -1,4 +1,11 @@
 import User from '../models/user'
+import jwt from 'jwt-simple'
+import config from '../config'
+
+function tokenForUser (user) {
+  const timestamp = new Date().getTime()
+  return jwt.encode({ sub: user.id, iat: timestamp }, config.secret)
+}
 
 export default {
   signup(req, res, next) {
@@ -28,7 +35,7 @@ export default {
         if (err) return next(err)
 
         // Respond to request indicating the user was created
-        res.json({ success: true })
+        res.json({ token: tokenForUser(user) })
       })
     })
   },
